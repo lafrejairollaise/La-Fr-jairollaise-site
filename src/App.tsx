@@ -275,7 +275,7 @@ export default function App() {
               {!isTeaserPlaying ? (
                 <>
                   <img 
-                    src="https://img.youtube.com/vi/wlYRBqOqjNk/hqdefault.jpg" 
+                    src="https://img.youtube.com/vi/O0DZJB5tbDw/hqdefault.jpg" 
                     alt="Miniature du Teaser 2026" 
                     className="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     referrerPolicy="no-referrer"
@@ -288,7 +288,7 @@ export default function App() {
               ) : (
                 <iframe 
                   className="absolute top-0 left-0 w-full h-full"
-                  src="https://www.youtube.com/embed/wlYRBqOqjNk?autoplay=1&rel=0" 
+                  src="https://www.youtube.com/embed/O0DZJB5tbDw?autoplay=1&rel=0" 
                   title="Teaser La Fréjairollaise 2026" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                   allowFullScreen
