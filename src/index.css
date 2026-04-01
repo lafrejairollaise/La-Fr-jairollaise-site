@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+.blue-fire-text {
+  color: #ffffff;
+  animation: blue-fire-text-anim 0.12s ease-in-out infinite alternate;
+}
+
+@keyframes blue-fire-text-anim {
+  0% {
+    text-shadow: 
+      0 -1px 2px #ffffff, 
+      0 -2px 5px #00ffff, 
+      0 -5px 15px #00aaff, 
+      0 -10px 25px #0055ff;
+  }
+  100% {
+    text-shadow: 
+      0 -1px 2px #ffffff, 
+      0 -4px 8px #00ffff, 
+      0 -8px 22px #00aaff, 
+      0 -16px 38px #0055ff;
+  }
+}
+
+.blue-fire-container {
+  border: 2px solid #00ffff;
+  animation: blue-fire-box-anim 0.12s ease-in-out infinite alternate;
+}
+
+@keyframes blue-fire-box-anim {
+  0% {
+    box-shadow: 
+      0 0 10px #00ffff, 
+      0 -10px 20px #00aaff, 
+      inset 0 0 15px #0055ff;
+  }
+  100% {
+    box-shadow: 
+      0 0 15px #00ffff, 
+      0 -15px 30px #00aaff, 
+      inset 0 0 25px #0055ff;
+  }
+}

@@ -45,8 +45,19 @@ function Countdown() {
     <div className="flex gap-3 sm:gap-6 justify-center my-10">
       {Object.entries(timeLeft).map(([unit, value]) => (
         <div key={unit} className="flex flex-col items-center">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl shadow-2xl w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center text-3xl sm:text-5xl font-black tabular-nums">
-            {value.toString().padStart(2, '0')}
+          <div className="relative bg-black blue-fire-container rounded-2xl w-20 h-20 sm:w-28 sm:h-28 flex items-center justify-center text-3xl sm:text-5xl font-black tabular-nums overflow-hidden">
+            <div 
+              className="absolute inset-0 opacity-90 mix-blend-screen pointer-events-none"
+              style={{
+                backgroundImage: 'url("https://media.giphy.com/media/nrXif9YExO9EI/giphy.gif")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center bottom',
+                filter: 'hue-rotate(180deg) saturate(300%) brightness(120%) contrast(150%)'
+              }}
+            />
+            <span className="relative z-10 blue-fire-text">
+              {value.toString().padStart(2, '0')}
+            </span>
           </div>
           <span className="text-blue-200 mt-3 text-xs sm:text-sm font-bold uppercase tracking-widest">{unit}</span>
         </div>
