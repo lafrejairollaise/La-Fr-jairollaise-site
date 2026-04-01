@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Calendar, MapPin, Phone, ArrowRight, Heart, Users, Activity, PartyPopper, Ticket, Award, X, Image as ImageIcon, ChevronLeft, ChevronRight, Newspaper, Facebook, Play } from 'lucide-react';
+import { Calendar, MapPin, Phone, ArrowRight, Heart, Users, Activity, PartyPopper, Ticket, Award, X, Image as ImageIcon, ChevronLeft, ChevronRight, Newspaper, Facebook, Instagram, Play, Menu, ChevronUp, ChevronDown, Map, Mic, Globe, Radio, Headphones, BookOpen } from 'lucide-react';
 
 const retrospectiveImages = [
   { id: 6, title: "Édition 2026", date: "Récap Avril 2026", url: "https://zupimages.net/up/26/13/mafq.jpg" },
@@ -66,11 +66,83 @@ function Countdown() {
   );
 }
 
+function Particles() {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(30)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-blue-300 rounded-full"
+          initial={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            opacity: Math.random() * 0.5 + 0.3,
+            scale: Math.random() * 2,
+          }}
+          animate={{
+            y: [0, Math.random() * -300 - 100],
+            x: [0, Math.random() * 100 - 50],
+            opacity: [null, 0],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 10,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FaqItem({ q, a }: { q: string, a: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="border-b border-slate-200 py-4">
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="flex justify-between items-center w-full text-left font-bold text-lg text-slate-800 hover:text-blue-600 transition-colors"
+      >
+        {q}
+        <ChevronDown className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-600' : 'text-slate-400'}`} />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }} 
+            animate={{ height: 'auto', opacity: 1 }} 
+            exit={{ height: 0, opacity: 0 }} 
+            className="overflow-hidden"
+          >
+            <p className="pt-4 text-slate-600 leading-relaxed">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function App() {
   const [selectedFlyer, setSelectedFlyer] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isTeaserPlaying, setIsTeaserPlaying] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -84,10 +156,72 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-500 selection:text-white">
+      {/* Navbar */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-900/95 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <a href="#accueil" className="text-2xl font-black text-white tracking-tighter">
+            MAXOU<span className="text-blue-400">10</span>
+          </a>
+          
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#programme" className="text-white/80 hover:text-white font-medium transition-colors">Programme</a>
+            <a href="#actualites" className="text-white/80 hover:text-white font-medium transition-colors">Actualités</a>
+            <a href="#retrospective" className="text-white/80 hover:text-white font-medium transition-colors">Rétrospective</a>
+            <a href="#faq" className="text-white/80 hover:text-white font-medium transition-colors">FAQ</a>
+            <a 
+              href="https://chrono-start.com/inscriptions-listing/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full font-bold transition-colors shadow-lg shadow-blue-600/20"
+            >
+              S'inscrire
+            </a>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-slate-900 border-t border-white/10 mt-4"
+            >
+              <div className="flex flex-col px-6 py-4 gap-4">
+                <a href="#programme" onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-white font-medium py-2">Programme</a>
+                <a href="#actualites" onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-white font-medium py-2">Actualités</a>
+                <a href="#retrospective" onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-white font-medium py-2">Rétrospective</a>
+                <a href="#faq" onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-white font-medium py-2">FAQ</a>
+                <a 
+                  href="https://chrono-start.com/inscriptions-listing/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-center mt-2"
+                >
+                  S'inscrire
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative bg-slate-900 text-white overflow-hidden min-h-screen flex flex-col items-center justify-center px-4 pt-12 pb-24">
+      <section id="accueil" className="relative bg-slate-900 text-white overflow-hidden min-h-screen flex flex-col items-center justify-center px-4 pt-12 pb-24">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-600 via-blue-900 to-slate-900 opacity-90"></div>
+        
+        <Particles />
         
         {/* Abstract shapes */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -203,7 +337,13 @@ export default function App() {
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
         
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="max-w-6xl mx-auto px-6 relative z-10"
+        >
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
             <div className="text-left">
@@ -255,13 +395,18 @@ export default function App() {
               </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Teaser 2026 Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section id="teaser" className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-          <div className="md:w-1/2 text-center md:text-left">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="md:w-1/2 text-center md:text-left"
+          >
             <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-100 text-red-600 font-bold text-sm uppercase tracking-wider mb-6">
               Nouveau
             </div>
@@ -277,10 +422,15 @@ export default function App() {
             >
               Je m'inscris maintenant
             </a>
-          </div>
-          <div className="md:w-1/2 flex justify-center">
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "0px" }}
+            className="md:w-1/2 flex justify-center w-full"
+          >
             <div 
-              className="relative w-full max-w-[320px] aspect-[9/16] rounded-[2rem] overflow-hidden shadow-2xl border-8 border-slate-900 bg-slate-900 cursor-pointer group"
+              className="relative w-full aspect-[9/16] max-w-[260px] sm:max-w-[320px] rounded-2xl md:rounded-[2rem] overflow-hidden shadow-2xl border-4 md:border-8 border-slate-900 bg-slate-900 cursor-pointer group"
               onClick={() => setIsTeaserPlaying(true)}
             >
               {!isTeaserPlaying ? (
@@ -306,7 +456,7 @@ export default function App() {
                 ></iframe>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -349,53 +499,121 @@ export default function App() {
       </section>
 
       {/* Program Section */}
-      <section className="py-24 px-6 max-w-7xl mx-auto bg-slate-50">
-        <div className="text-center mb-20">
+      <section id="programme" className="py-24 px-6 max-w-7xl mx-auto bg-slate-50">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
           <h2 className="text-4xl sm:text-5xl font-black text-slate-900 mb-6 tracking-tight">Le Programme</h2>
           <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light">Trois jours de festivités pour marquer le coup.</p>
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Day 1 */}
-          <ProgramCard 
-            day="Samedi 4 Avril"
-            time="19h00"
-            title="La Soirée de l'Autisme"
-            description="Repas convivial avec Truffade, suivi d'une soirée animée par Jean-Marc Pradel. N'oubliez pas de passer par le Studio Photo pour immortaliser l'instant !"
-            price="20€ (Vin compris)"
-            icon={<Users className="w-8 h-8 text-blue-600" />}
-            color="bg-blue-100"
-            onClick={() => setSelectedFlyer("https://zupimages.net/up/26/13/ac78.jpg")}
-          />
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+            <ProgramCard 
+              day="Samedi 4 Avril"
+              time="19h00"
+              title="La Soirée de l'Autisme"
+              description="Repas convivial avec Truffade, suivi d'une soirée animée par Jean-Marc Pradel. N'oubliez pas de passer par le Studio Photo pour immortaliser l'instant !"
+              price="20€ (Vin compris)"
+              icon={<Users className="w-8 h-8 text-blue-600" />}
+              color="bg-blue-100"
+              onClick={() => setSelectedFlyer("https://zupimages.net/up/26/13/ac78.jpg")}
+            />
+          </motion.div>
           {/* Day 2 */}
-          <ProgramCard 
-            day="Dimanche 5 Avril"
-            time="Dès 8h30"
-            title="La Fréjairollaise - 5e Édition"
-            description="Nouveaux parcours ! Trails (Cool 8km, Masplo 15km, Maxou 28km), VTT (40km) et Marche chronométrée (13km). Un don sera versé aux associations."
-            price="De 8€ à 15€"
-            icon={<Activity className="w-8 h-8 text-cyan-600" />}
-            color="bg-cyan-100"
-            featured={true}
-            onClick={() => setSelectedFlyer("https://zupimages.net/up/26/13/pl94.jpg")}
-          />
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+            <ProgramCard 
+              day="Dimanche 5 Avril"
+              time="Dès 8h30"
+              title="La Fréjairollaise - 5e Édition"
+              description="Nouveaux parcours ! Trails (Cool 8km, Masplo 15km, Maxou 28km), VTT (40km) et Marche chronométrée (13km). Un don sera versé aux associations."
+              price="De 8€ à 15€"
+              icon={<Activity className="w-8 h-8 text-cyan-600" />}
+              color="bg-cyan-100"
+              featured={true}
+              onClick={() => setSelectedFlyer("https://zupimages.net/up/26/13/pl94.jpg")}
+            />
+          </motion.div>
           {/* Day 3 */}
-          <ProgramCard 
-            day="Lundi 6 Avril"
-            time="14h00"
-            title="Chasse aux Œufs & Escape Game"
-            description="Partez à la recherche des œufs cachés dans le jardin ou résolvez les énigmes de notre Escape Game en famille !"
-            price="2€ à 5€"
-            icon={<Ticket className="w-8 h-8 text-indigo-600" />}
-            color="bg-indigo-100"
-            onClick={() => setSelectedFlyer("https://zupimages.net/up/26/13/cttu.jpg")}
-          />
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
+            <ProgramCard 
+              day="Lundi 6 Avril"
+              time="14h00"
+              title="Escape Game & Chasse aux Œufs"
+              description="Résolvez les énigmes de notre Escape Game inédit (avec le concours de Damien Monchaux) ou partez à la recherche des œufs cachés !"
+              price="2€ à 5€"
+              icon={<Ticket className="w-8 h-8 text-indigo-600" />}
+              color="bg-indigo-100"
+              onClick={() => setSelectedFlyer("https://zupimages.net/up/26/13/cttu.jpg")}
+            />
+          </motion.div>
         </div>
+
+        {/* Highlight Escape Game */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true }}
+          className="mt-16 bg-slate-900 rounded-3xl overflow-hidden shadow-2xl relative"
+        >
+          <div className="absolute inset-0 opacity-20 bg-[url('https://zupimages.net/up/26/14/ipis.jpeg')] bg-cover bg-center mix-blend-luminosity"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent"></div>
+          
+          <div className="relative p-8 sm:p-12 md:p-16 flex flex-col md:flex-row items-center gap-8 md:gap-16">
+            <div className="flex-1 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/20 text-indigo-300 font-bold text-sm uppercase tracking-widest mb-6 border border-indigo-500/30">
+                <Ticket size={16} />
+                Lundi 6 Avril • Nouveauté
+              </div>
+              <h3 className="text-3xl sm:text-4xl font-black text-white mb-4">
+                L'Escape Game Inédit
+              </h3>
+              <p className="text-lg text-slate-300 mb-6 leading-relaxed">
+                Plongez dans une aventure mystérieuse ! Venez résoudre les énigmes de notre tout nouvel Escape Game, créé spécialement pour l'événement <strong className="text-indigo-400">avec le concours exclusif de Damien Monchaux</strong>.
+              </p>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                <div className="flex items-center gap-2 text-slate-400 bg-white/5 px-4 py-2 rounded-xl">
+                  <Users size={18} />
+                  <span>En famille ou entre amis</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-400 bg-white/5 px-4 py-2 rounded-xl">
+                  <Activity size={18} />
+                  <span>Réflexion & Mystère</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="w-full md:w-1/3 relative group max-w-[350px]">
+              <div className="absolute inset-0 bg-indigo-500 rounded-3xl rotate-6 opacity-20 blur-xl group-hover:rotate-12 transition-transform duration-500"></div>
+              <div className="relative rounded-3xl overflow-hidden border-2 border-slate-700 shadow-2xl transform group-hover:-translate-y-2 transition-all duration-500">
+                <img 
+                  src="https://zupimages.net/up/26/14/ipis.jpeg" 
+                  alt="Le mystérieux coffre de l'Escape Game" 
+                  className="w-full h-auto aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-90"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
+                  <div className="text-xl font-black text-white mb-1">Prêt à relever le défi ?</div>
+                  <div className="text-indigo-300 text-sm font-medium">Le coffre n'attend que vous...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* News Section */}
-      <section className="py-24 px-6 max-w-7xl mx-auto bg-slate-50">
-        <div className="text-center mb-16">
+      <section id="actualites" className="py-24 px-6 max-w-7xl mx-auto bg-slate-50">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 -rotate-3">
             <Newspaper size={32} />
           </div>
@@ -403,16 +621,21 @@ export default function App() {
           <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light">
             Les dernières nouvelles de l'association et de nos soutiens.
           </p>
-        </div>
+        </motion.div>
 
         <div className="max-w-4xl mx-auto flex flex-col gap-10">
           {/* Article 1 */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row hover:shadow-md transition-shadow">
-            <div className="md:w-1/2 relative">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          >
+            <div className="md:w-1/2 relative overflow-hidden">
               <img 
                 src="https://zupimages.net/up/26/13/u3ny.jpg" 
                 alt="Rencontre avec Laurent Cardaillac" 
-                className="w-full h-full object-cover min-h-[300px]"
+                className="w-full h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute bottom-4 right-4 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-4 border-white shadow-xl rotate-3 hover:rotate-0 transition-transform duration-300">
@@ -446,15 +669,20 @@ export default function App() {
                 Suivre Laurent sur Facebook
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Article 2 */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row-reverse hover:shadow-md transition-shadow">
-            <div className="md:w-1/2">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row-reverse hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          >
+            <div className="md:w-1/2 overflow-hidden">
               <img 
                 src="https://zupimages.net/up/26/13/xufs.jpg" 
                 alt="Physio Massages à l'Espace Récup" 
-                className="w-full h-full object-cover min-h-[300px]"
+                className="w-full h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -475,25 +703,41 @@ export default function App() {
               <p className="text-slate-500 text-sm italic mb-8">
                 L'idéal pour repartir avec les jambes légères ! 🚴‍♀️
               </p>
-              <a 
-                href="https://www.facebook.com/physiomassages/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors self-start bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-full"
-              >
-                <Facebook size={18} />
-                Découvrir Physio Massages
-              </a>
+              <div className="flex flex-wrap gap-4">
+                <a 
+                  href="https://www.facebook.com/physiomassages" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-white font-medium transition-colors self-start bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-full shadow-md shadow-blue-600/20"
+                >
+                  <Facebook size={18} />
+                  Facebook
+                </a>
+                <a 
+                  href="https://www.instagram.com/physio.massages" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 font-medium transition-colors self-start bg-pink-50 hover:bg-pink-100 px-5 py-2.5 rounded-full"
+                >
+                  <Instagram size={18} />
+                  Instagram
+                </a>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Article 3 */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row hover:shadow-md transition-shadow">
-            <div className="md:w-1/2 relative">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          >
+            <div className="md:w-1/2 relative overflow-hidden">
               <img 
                 src="https://zupimages.net/up/26/13/hhlg.jpg" 
                 alt="Mélody Julien" 
-                className="w-full h-full object-cover min-h-[300px]"
+                className="w-full h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute bottom-4 right-4 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-4 border-white shadow-xl -rotate-3 hover:rotate-0 transition-transform duration-300">
@@ -523,15 +767,20 @@ export default function App() {
                 <p className="font-bold text-blue-600 mt-2">Mélody Julien : 1h09'38 au semi-marathon de Barcelone 🔥</p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Article 4 */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row-reverse hover:shadow-md transition-shadow">
-            <div className="md:w-1/2">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row-reverse hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          >
+            <div className="md:w-1/2 overflow-hidden">
               <img 
                 src="https://zupimages.net/up/26/13/t39f.jpg" 
                 alt="Mise en place des palettes" 
-                className="w-full h-full object-cover min-h-[300px]"
+                className="w-full h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -548,15 +797,20 @@ export default function App() {
                 Un immense merci à Séb et Patrick pour leur aide précieuse ! 👍👍
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Article 5 */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row hover:shadow-md transition-shadow">
-            <div className="md:w-1/2">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          >
+            <div className="md:w-1/2 overflow-hidden">
               <img 
                 src="https://zupimages.net/up/26/13/mwy9.jpg" 
                 alt="Jean-Marc Pradel" 
-                className="w-full h-full object-cover min-h-[300px]"
+                className="w-full h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -572,31 +826,47 @@ export default function App() {
               <p className="text-slate-500 text-sm italic font-medium mb-8">
                 Venez nombreux ! 💃🏻🕺🏻🎉🎊
               </p>
-              <a 
-                href="https://www.facebook.com/jeanmarc.pradel" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors self-start bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-full"
-              >
-                <Facebook size={18} />
-                Suivre Jean-Marc sur Facebook
-              </a>
+              <div className="flex flex-wrap gap-4">
+                <a 
+                  href="https://jmpradel.wixsite.com/jmpradel" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-white font-medium transition-colors self-start bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-full shadow-md shadow-blue-600/20"
+                >
+                  <Globe size={18} />
+                  Visiter son site web
+                </a>
+                <a 
+                  href="https://www.facebook.com/jeanmarc.pradel" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors self-start bg-blue-50 hover:bg-blue-100 px-5 py-2.5 rounded-full"
+                >
+                  <Facebook size={18} />
+                  Facebook
+                </a>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Article 6 */}
-          <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row-reverse hover:shadow-md transition-shadow">
-            <div className="md:w-1/2 flex">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 flex flex-col md:flex-row-reverse hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+          >
+            <div className="md:w-1/2 flex overflow-hidden">
               <img 
                 src="https://zupimages.net/up/26/13/ezp9.jpg" 
                 alt="Trophée 1" 
-                className="w-1/2 h-full object-cover min-h-[300px]"
+                className="w-1/2 h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
               <img 
                 src="https://zupimages.net/up/26/13/vm70.jpg" 
                 alt="Trophée 2" 
-                className="w-1/2 h-full object-cover min-h-[300px]"
+                className="w-1/2 h-full object-cover min-h-[300px] group-hover:scale-105 transition-transform duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -622,13 +892,18 @@ export default function App() {
                 Découvrir Event's Trophy
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Retrospective Section */}
-      <section className="py-24 px-6 max-w-7xl mx-auto bg-white">
-        <div className="text-center mb-16">
+      <section id="retrospective" className="py-24 px-6 max-w-7xl mx-auto bg-white">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 -rotate-3">
             <ImageIcon size={32} />
           </div>
@@ -636,7 +911,7 @@ export default function App() {
           <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light">
             Revivez nos précédentes éditions en images. Cliquez sur l'affiche pour l'agrandir !
           </p>
-        </div>
+        </motion.div>
 
         <div className="relative w-full max-w-5xl mx-auto h-[500px] sm:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-slate-900 group">
           <AnimatePresence mode="wait">
@@ -706,6 +981,153 @@ export default function App() {
         </div>
       </section>
 
+      {/* Map Section */}
+      <section className="py-24 bg-slate-50 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 -rotate-3">
+              <Map size={32} />
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-black text-slate-900 mb-6 tracking-tight">Nous Rejoindre</h2>
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light">
+              Le village départ se situe au cœur de Fréjairolles.
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="w-full h-[400px] rounded-3xl overflow-hidden shadow-xl border-4 border-white"
+          >
+            <iframe 
+              src="https://maps.google.com/maps?q=Fr%C3%A9jairolles,%20France&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Ils parlent de nous Section */}
+      <section id="presse" className="py-24 px-6 max-w-7xl mx-auto bg-slate-50">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 -rotate-3">
+            <Mic size={32} />
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-black text-slate-900 mb-6 tracking-tight">Ils parlent de nous</h2>
+          <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light">
+            Retrouvez les articles, podcasts et mentions de La Fréjairollaise dans les médias.
+          </p>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <a href="https://www.acturoubaix.fr/societe/4507" target="_blank" rel="noopener noreferrer" className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                <Newspaper size={20} />
+              </div>
+              <span className="font-bold text-slate-900">Actu Roubaix</span>
+            </div>
+            <p className="text-slate-600 text-sm">Article sur l'édition et l'engagement de l'association.</p>
+          </a>
+
+          <a href="https://gotrail.run/fr/course/la-frejairollaise" target="_blank" rel="noopener noreferrer" className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                <Globe size={20} />
+              </div>
+              <span className="font-bold text-slate-900">GoTrail.run</span>
+            </div>
+            <p className="text-slate-600 text-sm">Fiche détaillée de la course et des parcours.</p>
+          </a>
+
+          <a href="https://www.calameo.com/read/007457677bd9686eb01c7" target="_blank" rel="noopener noreferrer" className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                <BookOpen size={20} />
+              </div>
+              <span className="font-bold text-slate-900">Magazine (Calaméo)</span>
+            </div>
+            <p className="text-slate-600 text-sm">Retrouvez-nous en page 7 de cette publication.</p>
+          </a>
+
+          <a href="https://www.esprit-trail.com/calendrier_courses/la-frejairollaise/" target="_blank" rel="noopener noreferrer" className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                <Map size={20} />
+              </div>
+              <span className="font-bold text-slate-900">Esprit Trail</span>
+            </div>
+            <p className="text-slate-600 text-sm">Référencement dans le calendrier national Esprit Trail.</p>
+          </a>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-24 px-6 max-w-3xl mx-auto bg-white">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl sm:text-5xl font-black text-slate-900 mb-6 tracking-tight">Questions Fréquentes</h2>
+          <p className="text-xl text-slate-500 font-light">Tout ce que vous devez savoir pour le jour J.</p>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100"
+        >
+          <FaqItem q="Où et quand retirer son dossard ?" a="Le retrait des dossards s'effectue à la salle des fêtes de Fréjairolles le samedi de 14h à 18h et le dimanche matin à partir de 7h30. La pièce d'identité n'est pas nécessaire." />
+          <FaqItem q="Y a-t-il des douches sur place ?" a="Oui, des douches et des vestiaires sont mis à disposition des coureurs au stade municipal." />
+          <FaqItem q="Où se garer ?" a="Le stationnement se fait librement dans le village. Nous vous invitons simplement à veiller à ne pas gêner les accès et à respecter le stationnement des riverains pour le confort de tous." />
+          <FaqItem q="Peut-on s'inscrire sur place ?" a="Oui, dans la limite des dossards disponibles. Il n'y a pas de majoration pour les inscriptions sur place." />
+          <FaqItem q="Le repas du samedi soir est-il ouvert à tous ?" a="Oui, le repas du samedi soir est ouvert à tous ! Coureurs, accompagnateurs, ou simples visiteurs, tout le monde est le bienvenu." />
+        </motion.div>
+      </section>
+
+      {/* Sponsors Marquee */}
+      <section className="py-12 bg-blue-600 overflow-hidden">
+        <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="flex items-center gap-16 px-8 text-white/80 font-bold text-2xl uppercase tracking-widest">
+              <a href="https://www.dreamcom.fr" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Dreamcom.fr</a>
+              <span>•</span>
+              <a href="https://www.mairie-frejairolles.fr/fr/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Mairie de Fréjairolles</a>
+              <span>•</span>
+              <a href="https://www.tarn.fr" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Département du Tarn</a>
+              <span>•</span>
+              <a href="https://www.facebook.com/profile.php?id=61559237092189" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Event's Trophy</a>
+              <span>•</span>
+              <a href="https://www.facebook.com/physiomassages" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Physio Massages</a>
+              <span>•</span>
+              <a href="https://chrono-start.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Chrono-Start</a>
+              <span>•</span>
+              <a href="https://jmpradel.wixsite.com/jmpradel" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Jean-Marc Pradel</a>
+              <span>•</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Info & Registration */}
       <section className="bg-blue-950 text-white py-24 px-6 relative overflow-hidden">
         {/* Decorative background */}
@@ -760,6 +1182,26 @@ export default function App() {
           <p>© 2026 Les Z'amis de Maxou. Tous droits réservés.</p>
         </div>
       </footer>
+
+      {/* Scroll To Top Button */}
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 right-6 z-50"
+          >
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="w-12 h-12 bg-blue-600 hover:bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-600/30 transition-colors"
+              aria-label="Retour en haut"
+            >
+              <ChevronUp size={24} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Flyer Modal */}
       <AnimatePresence>
