@@ -1066,6 +1066,30 @@ export default function App() {
             <p className="text-slate-600 text-sm">Retrouvez-nous en page 7 de cette publication.</p>
           </a>
 
+          <a href="#" target="_blank" rel="noopener noreferrer" className="sm:col-span-2 lg:col-span-3 bg-gradient-to-br from-blue-600 to-indigo-700 p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all group relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20 transition-transform group-hover:scale-110"></div>
+            <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white shrink-0">
+                <Radio size={32} />
+              </div>
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider mb-3">
+                  <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                  À la radio & en podcast
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Écoutez notre passage à la Radio</h3>
+                <p className="text-blue-100 max-w-2xl">
+                  Découvrez les coulisses de l'organisation et nos ambitions pour cette nouvelle édition. Retrouvez l'interview complète en replay podcast !
+                </p>
+              </div>
+              <div className="mt-6 sm:mt-0 sm:ml-auto shrink-0">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white text-blue-600 group-hover:scale-110 transition-transform shadow-md">
+                  <Play size={24} className="ml-1" />
+                </span>
+              </div>
+            </div>
+          </a>
+
           <a href="https://www.esprit-trail.com/calendrier_courses/la-frejairollaise/" target="_blank" rel="noopener noreferrer" className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
