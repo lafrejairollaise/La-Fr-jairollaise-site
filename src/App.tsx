@@ -1106,7 +1106,7 @@ export default function App() {
 
       {/* Sponsors Marquee */}
       <section className="py-12 bg-blue-600 overflow-hidden">
-        <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]">
+        <div className="flex whitespace-nowrap animate-[marquee_15s_linear_infinite]">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex items-center gap-16 px-8 text-white/80 font-bold text-2xl uppercase tracking-widest">
               <a href="https://www.dreamcom.fr" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-white/30 underline-offset-4">Dreamcom.fr</a>
