@@ -18,28 +18,128 @@ const retrospectiveImages = [
 
 function Countdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [eventState, setEventState] = useState(0);
 
   useEffect(() => {
-    const targetDate = new Date('2026-04-04T19:00:00').getTime();
+    const date1 = new Date('2026-04-04T19:00:00').getTime(); // Samedi 19h00
+    const date2 = new Date('2026-04-05T01:00:00').getTime(); // Dimanche 01h00
+    const date3 = new Date('2026-04-05T16:00:00').getTime(); // Dimanche 16h00
+    const date4 = new Date('2026-04-06T12:00:00').getTime(); // Lundi 12h00
+    const date5 = new Date('2026-04-06T18:00:00').getTime(); // Lundi 18h00
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
-      const difference = targetDate - now;
+      const difference = date1 - now;
 
       if (difference > 0) {
+        setEventState(0);
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
           hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((difference % (1000 * 60)) / 1000),
         });
+      } else if (now >= date1 && now < date2) {
+        setEventState(1);
+      } else if (now >= date2 && now < date3) {
+        setEventState(2);
+      } else if (now >= date3 && now < date4) {
+        setEventState(3);
+      } else if (now >= date4 && now < date5) {
+        setEventState(4);
       } else {
+        setEventState(5);
         clearInterval(interval);
       }
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
+
+  if (eventState === 1) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="my-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto shadow-2xl"
+      >
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+          <Users className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400" />
+          <h3 className="text-2xl sm:text-3xl font-black text-white">La Soirée a commencé !</h3>
+          <Users className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400" />
+        </div>
+        <p className="text-blue-100 text-base sm:text-lg">Rejoignez-nous pour le repas et la soirée animée par Jean-Marc Pradel.</p>
+      </motion.div>
+    );
+  }
+
+  if (eventState === 2) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="my-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto shadow-2xl"
+      >
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+          <Activity className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400" />
+          <h3 className="text-2xl sm:text-3xl font-black text-white">La Fréjairollaise est en cours !</h3>
+          <Activity className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400" />
+        </div>
+        <p className="text-blue-100 text-base sm:text-lg">Bonne course à tous les participants ! Trails, VTT et Marche.</p>
+      </motion.div>
+    );
+  }
+
+  if (eventState === 3) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="my-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto shadow-2xl"
+      >
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+          <Ticket className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-400" />
+          <h3 className="text-2xl sm:text-3xl font-black text-white">L'Escape Game va ouvrir !</h3>
+          <Ticket className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-400" />
+        </div>
+        <p className="text-blue-100 text-base sm:text-lg">Venez résoudre les énigmes et chercher les œufs !</p>
+      </motion.div>
+    );
+  }
+
+  if (eventState === 4) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="my-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto shadow-2xl"
+      >
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+          <Ticket className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-400" />
+          <h3 className="text-2xl sm:text-3xl font-black text-white">L'Escape Game est ouvert !</h3>
+          <Ticket className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-400" />
+        </div>
+        <p className="text-blue-100 text-base sm:text-lg">Venez résoudre les énigmes et chercher les œufs !</p>
+      </motion.div>
+    );
+  }
+
+  if (eventState === 5) {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="my-10 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto shadow-2xl"
+      >
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+          <Heart className="w-8 h-8 sm:w-10 sm:h-10 text-red-400" />
+          <h3 className="text-2xl sm:text-3xl font-black text-white">Merci pour cette édition 2026 !</h3>
+          <Heart className="w-8 h-8 sm:w-10 sm:h-10 text-red-400" />
+        </div>
+        <p className="text-blue-100 text-base sm:text-lg">Un immense merci à tous pour votre participation et votre soutien.</p>
+      </motion.div>
+    );
+  }
 
   return (
     <div className="flex gap-3 sm:gap-6 justify-center my-10">
@@ -135,6 +235,7 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isTeaserPlaying, setIsTeaserPlaying] = useState(false);
+  const [isDrummerVideoPlaying, setIsDrummerVideoPlaying] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -367,15 +468,29 @@ export default function App() {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="absolute top-0 right-0 w-4/5 h-[75%] rounded-3xl overflow-hidden shadow-2xl"
+                className="absolute top-0 right-0 w-4/5 h-[75%] rounded-3xl overflow-hidden shadow-2xl cursor-default"
+                onClick={() => setIsDrummerVideoPlaying(true)}
               >
-                <img 
-                  src="https://zupimages.net/up/26/13/o8hj.jpg" 
-                  alt="Le départ de la course" 
-                  className="w-full h-full object-cover" 
-                  referrerPolicy="no-referrer" 
-                />
-                <div className="absolute inset-0 bg-blue-900/10 mix-blend-multiply"></div>
+                {!isDrummerVideoPlaying ? (
+                  <>
+                    <img 
+                      src="https://zupimages.net/up/26/13/o8hj.jpg" 
+                      alt="Le batteur" 
+                      className="w-full h-full object-cover" 
+                      referrerPolicy="no-referrer" 
+                    />
+                    <div className="absolute inset-0 bg-blue-900/10 mix-blend-multiply pointer-events-none"></div>
+                  </>
+                ) : (
+                  <iframe 
+                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1849018142472806&show_text=false&width=auto" 
+                    className="w-full h-full border-none overflow-hidden" 
+                    scrolling="no" 
+                    frameBorder="0" 
+                    allowFullScreen={true} 
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  ></iframe>
+                )}
               </motion.div>
 
               {/* Maxou photo - overlapping, slightly smaller */}
