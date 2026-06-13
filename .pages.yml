@@ -1,0 +1,262 @@
+# ───────────────────────────────────────────────────────────────
+#  Pages CMS — éditeur visuel du site La Fréjairollaise
+#  Doc : https://pagescms.org/docs/
+#  Tout le contenu éditable du site est dans src/data/content.json
+# ───────────────────────────────────────────────────────────────
+
+content:
+  - name: site
+    label: Contenu du site
+    type: file
+    path: src/data/content.json
+    fields:
+      - name: nav
+        label: Barre de navigation
+        type: object
+        fields:
+          - name: brandMain
+            label: Logo — texte
+            type: string
+          - name: brandAccent
+            label: Logo — chiffre coloré
+            type: string
+          - name: links
+            label: Liens du menu
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Libellé
+                type: string
+              - name: href
+                label: Lien (URL ou #ancre)
+                type: string
+          - name: results
+            label: Bouton « Résultats »
+            type: object
+            fields:
+              - name: label
+                label: Libellé
+                type: string
+              - name: href
+                label: Lien
+                type: string
+
+      - name: hero
+        label: Accueil (haut de page)
+        type: object
+        fields:
+          - name: badge
+            label: Badge
+            type: string
+          - name: title
+            label: Grand titre
+            type: string
+          - name: subtitle
+            label: Sous-titre
+            type: string
+          - name: intro
+            label: Texte d'introduction
+            type: text
+          - name: youtubeId
+            label: ID de la vidéo YouTube
+            type: string
+            description: "La partie après watch?v= dans le lien YouTube. Ex. : 6dsWv-NBJ4w"
+          - name: slogan
+            label: Slogan
+            type: string
+          - name: facebook
+            label: Bouton Facebook
+            type: object
+            fields:
+              - name: label
+                label: Libellé
+                type: string
+              - name: href
+                label: Lien
+                type: string
+
+      - name: about
+        label: Section « 10 ans d'engagement »
+        type: object
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: paragraph1
+            label: 1er paragraphe (avec un passage en gras)
+            type: object
+            fields:
+              - name: lead
+                label: Début (avant le gras)
+                type: string
+              - name: highlight
+                label: Passage en gras (bleu)
+                type: string
+              - name: rest
+                label: Fin (après le gras)
+                type: string
+          - name: paragraph2
+            label: 2e paragraphe
+            type: text
+          - name: drummerImage
+            label: Photo principale (URL)
+            type: string
+          - name: drummerVideo
+            label: Vidéo Facebook au clic (URL d'intégration)
+            type: string
+          - name: maxouImage
+            label: Photo Maxou (URL)
+            type: string
+
+      - name: retrospective
+        label: Rétrospective (diaporama)
+        type: object
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: subtitle
+            label: Sous-titre
+            type: string
+          - name: images
+            label: Affiches / photos
+            type: object
+            list:
+              collapsible:
+                summary: "{title} — {date}"
+            fields:
+              - name: id
+                label: Ordre (numéro)
+                type: number
+              - name: title
+                label: Titre (ex. Édition 2026)
+                type: string
+              - name: date
+                label: Date affichée
+                type: string
+              - name: url
+                label: Image (URL)
+                type: string
+
+      - name: map
+        label: Section « Nous rejoindre » (carte)
+        type: object
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: subtitle
+            label: Sous-titre
+            type: string
+          - name: embedUrl
+            label: Carte Google Maps (URL d'intégration)
+            type: string
+
+      - name: press
+        label: Section « Ils parlent de nous »
+        type: object
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: subtitle
+            label: Sous-titre
+            type: string
+          - name: featured
+            label: Encart mis en avant (radio / podcast)
+            type: object
+            fields:
+              - name: href
+                label: Lien
+                type: string
+              - name: badge
+                label: Petit badge
+                type: string
+              - name: title
+                label: Titre
+                type: string
+              - name: description
+                label: Description
+                type: text
+          - name: items
+            label: Articles / médias
+            type: object
+            list:
+              collapsible:
+                summary: "{name}"
+            fields:
+              - name: icon
+                label: Icône
+                type: select
+                options:
+                  values: [Newspaper, Globe, BookOpen, Map, Radio]
+              - name: name
+                label: Nom du média
+                type: string
+              - name: description
+                label: Description
+                type: string
+              - name: href
+                label: Lien
+                type: string
+
+      - name: sponsors
+        label: Bandeau des partenaires (défilant)
+        type: object
+        list:
+          collapsible:
+            summary: "{label}"
+        fields:
+          - name: label
+            label: Nom
+            type: string
+          - name: href
+            label: Lien
+            type: string
+
+      - name: thanks
+        label: Remerciements / contact
+        type: object
+        fields:
+          - name: title
+            label: Titre
+            type: string
+          - name: subtitle
+            label: Sous-titre
+            type: text
+          - name: phoneLabel
+            label: Libellé au-dessus des numéros
+            type: string
+          - name: phones
+            label: Numéros de téléphone
+            type: string
+            list: true
+          - name: results
+            label: Bouton « Consulter les résultats »
+            type: object
+            fields:
+              - name: label
+                label: Libellé
+                type: string
+              - name: href
+                label: Lien
+                type: string
+
+      - name: footer
+        label: Pied de page
+        type: object
+        fields:
+          - name: facebook
+            label: Bouton Facebook
+            type: object
+            fields:
+              - name: label
+                label: Libellé
+                type: string
+              - name: href
+                label: Lien
+                type: string
+          - name: copyright
+            label: Mention de copyright
+            type: string
