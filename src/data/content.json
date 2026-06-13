@@ -3,10 +3,19 @@
     "brandMain": "MAXOU",
     "brandAccent": "10",
     "links": [
-      { "label": "Rétrospective", "href": "#retrospective" },
-      { "label": "Presse", "href": "#presse" }
+      {
+        "label": "Rétrospective",
+        "href": "#retrospective"
+      },
+      {
+        "label": "Presse",
+        "href": "#presse"
+      }
     ],
-    "results": { "label": "Résultats", "href": "https://chrono-start.com/" }
+    "results": {
+      "label": "Résultats",
+      "href": "https://chrono-start.com/"
+    }
   },
   "hero": {
     "badge": "Édition 2026 Terminée",
@@ -14,8 +23,11 @@
     "subtitle": "10 ANS D'ENGAGEMENT",
     "intro": "Un immense merci pour cette 10e édition exceptionnelle. Revivez les meilleurs moments de nos courses grâce à notre vidéo officielle !",
     "youtubeId": "6dsWv-NBJ4w",
-    "slogan": "Tous en Bleu !",
-    "facebook": { "label": "Suivez-nous sur Facebook", "href": "https://www.facebook.com/lafrejairollaise" }
+    "slogan": "Tous en Bleu 2026 !",
+    "facebook": {
+      "label": "Suivez-nous sur Facebook",
+      "href": "https://www.facebook.com/lafrejairollaise"
+    }
   },
   "about": {
     "title": "10 Ans d'Engagement",
@@ -33,12 +45,42 @@
     "title": "Rétrospective",
     "subtitle": "Revivez nos précédentes éditions en images. Cliquez sur l'affiche pour l'agrandir !",
     "images": [
-      { "id": 6, "title": "Édition 2026", "date": "Récap Avril 2026", "url": "https://zupimages.net/up/26/13/mafq.jpg" },
-      { "id": 5, "title": "Édition 2025", "date": "5 Avril 2025", "url": "https://zupimages.net/up/26/13/6io8.jpg" },
-      { "id": 4, "title": "Édition 2024", "date": "6 Avril 2024", "url": "https://zupimages.net/up/26/13/kaj2.jpg" },
-      { "id": 3, "title": "Édition 2023", "date": "2 Avril 2023", "url": "https://zupimages.net/up/26/13/s1t7.jpg" },
-      { "id": 2, "title": "Édition 2023", "date": "1 Avril 2023", "url": "https://zupimages.net/up/26/13/299a.jpg" },
-      { "id": 1, "title": "Édition 2022", "date": "3 Avril 2022", "url": "https://zupimages.net/up/26/13/fa5r.jpg" }
+      {
+        "id": 6,
+        "title": "Édition 2026",
+        "date": "Récap Avril 2026",
+        "url": "https://zupimages.net/up/26/13/mafq.jpg"
+      },
+      {
+        "id": 5,
+        "title": "Édition 2025",
+        "date": "5 Avril 2025",
+        "url": "https://zupimages.net/up/26/13/6io8.jpg"
+      },
+      {
+        "id": 4,
+        "title": "Édition 2024",
+        "date": "6 Avril 2024",
+        "url": "https://zupimages.net/up/26/13/kaj2.jpg"
+      },
+      {
+        "id": 3,
+        "title": "Édition 2023",
+        "date": "2 Avril 2023",
+        "url": "https://zupimages.net/up/26/13/s1t7.jpg"
+      },
+      {
+        "id": 2,
+        "title": "Édition 2023",
+        "date": "1 Avril 2023",
+        "url": "https://zupimages.net/up/26/13/299a.jpg"
+      },
+      {
+        "id": 1,
+        "title": "Édition 2022",
+        "date": "3 Avril 2022",
+        "url": "https://zupimages.net/up/26/13/fa5r.jpg"
+      }
     ]
   },
   "map": {
@@ -56,31 +98,84 @@
       "description": "Découvrez les coulisses de l'organisation et nos ambitions pour cette nouvelle édition. Retrouvez l'interview complète diffusée sur Radio Albigès en replay podcast !"
     },
     "items": [
-      { "icon": "Newspaper", "name": "Actu Roubaix", "description": "Article sur l'édition et l'engagement de l'association.", "href": "https://www.acturoubaix.fr/societe/4507" },
-      { "icon": "Globe", "name": "GoTrail.run", "description": "Fiche détaillée de la course et des parcours.", "href": "https://gotrail.run/fr/course/la-frejairollaise" },
-      { "icon": "BookOpen", "name": "Magazine (Calaméo)", "description": "Retrouvez-nous en page 7 de cette publication.", "href": "https://www.calameo.com/read/007457677bd9686eb01c7" },
-      { "icon": "Map", "name": "Esprit Trail", "description": "Référencement dans le calendrier national Esprit Trail.", "href": "https://www.esprit-trail.com/calendrier_courses/la-frejairollaise/" }
+      {
+        "icon": "Newspaper",
+        "name": "Actu Roubaix",
+        "description": "Article sur l'édition et l'engagement de l'association.",
+        "href": "https://www.acturoubaix.fr/societe/4507"
+      },
+      {
+        "icon": "Globe",
+        "name": "GoTrail.run",
+        "description": "Fiche détaillée de la course et des parcours.",
+        "href": "https://gotrail.run/fr/course/la-frejairollaise"
+      },
+      {
+        "icon": "BookOpen",
+        "name": "Magazine (Calaméo)",
+        "description": "Retrouvez-nous en page 7 de cette publication.",
+        "href": "https://www.calameo.com/read/007457677bd9686eb01c7"
+      },
+      {
+        "icon": "Map",
+        "name": "Esprit Trail",
+        "description": "Référencement dans le calendrier national Esprit Trail.",
+        "href": "https://www.esprit-trail.com/calendrier_courses/la-frejairollaise/"
+      }
     ]
   },
   "sponsors": [
-    { "label": "Radio Albigès", "href": "https://www.radioalbiges.com/" },
-    { "label": "Dreamcom.fr", "href": "https://www.dreamcom.fr" },
-    { "label": "Mairie de Fréjairolles", "href": "https://www.mairie-frejairolles.fr/fr/" },
-    { "label": "Département du Tarn", "href": "https://www.tarn.fr" },
-    { "label": "Event's Trophy", "href": "https://www.facebook.com/profile.php?id=61559237092189" },
-    { "label": "Physio Massages", "href": "https://www.facebook.com/physiomassages" },
-    { "label": "Chrono-Start", "href": "https://chrono-start.com/" },
-    { "label": "Jean-Marc Pradel", "href": "https://jmpradel.wixsite.com/jmpradel" }
+    {
+      "label": "Radio Albigès",
+      "href": "https://www.radioalbiges.com/"
+    },
+    {
+      "label": "Dreamcom.fr",
+      "href": "https://www.dreamcom.fr"
+    },
+    {
+      "label": "Mairie de Fréjairolles",
+      "href": "https://www.mairie-frejairolles.fr/fr/"
+    },
+    {
+      "label": "Département du Tarn",
+      "href": "https://www.tarn.fr"
+    },
+    {
+      "label": "Event's Trophy",
+      "href": "https://www.facebook.com/profile.php?id=61559237092189"
+    },
+    {
+      "label": "Physio Massages",
+      "href": "https://www.facebook.com/physiomassages"
+    },
+    {
+      "label": "Chrono-Start",
+      "href": "https://chrono-start.com/"
+    },
+    {
+      "label": "Jean-Marc Pradel",
+      "href": "https://jmpradel.wixsite.com/jmpradel"
+    }
   ],
   "thanks": {
     "title": "Merci d'avoir participé à l'édition 2026 !",
     "subtitle": "Revivez l'événement à travers nos photos ou consultez vos résultats en ligne.",
     "phoneLabel": "Plus d'infos",
-    "phones": ["06 87 46 82 19", "06 10 55 32 20"],
-    "results": { "label": "Consulter les Résultats", "href": "https://chrono-start.com/" }
+    "phones": [
+      "06 87 46 82 19",
+      "06 10 55 32 20"
+    ],
+    "results": {
+      "label": "Consulter les Résultats",
+      "href": "https://chrono-start.com/"
+    }
   },
   "footer": {
-    "facebook": { "label": "Rejoignez-nous sur Facebook", "href": "https://www.facebook.com/lafrejairollaise" },
+    "facebook": {
+      "label": "Rejoignez-nous sur Facebook",
+      "href": "https://www.facebook.com/lafrejairollaise"
+    },
     "copyright": "© 2026 Les Z'amis de Maxou. Tous droits réservés."
   }
 }
